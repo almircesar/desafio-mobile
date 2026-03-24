@@ -2,31 +2,40 @@ const BasePage = require('./base.page')
 
 class LoginPage extends BasePage {
     get loginTab() {
-        return $('~Login')
+        return this.$('~Login')
     }
 
     get emailInput() {
-        return $('~input-email')
+        return this.$('~input-email')
     }
 
     get passwordInput() {
-        return $('~input-password')
+        return this.$('~input-password')
     }
 
     get loginButton() {
-        return $('~button-LOGIN')
+        return this.$('~button-LOGIN')
     }
 
     get successMessage() {
-        return $('android=new UiSelector().textContains("You are logged in!")')
+        return this.$(
+            'android=new UiSelector().textContains("You are logged in!")',
+            '-ios predicate string:name CONTAINS "You are logged in!"'
+        )
     }
 
     get emailRequiredError() {
-        return $('android=new UiSelector().textContains("Please enter a valid email address")')
+        return this.$(
+            'android=new UiSelector().textContains("Please enter a valid email address")',
+            '-ios predicate string:name CONTAINS "Please enter a valid email address"'
+        )
     }
 
     get passwordRequiredError() {
-        return $('android=new UiSelector().textContains("Please enter at least 8 characters")')
+        return this.$(
+            'android=new UiSelector().textContains("Please enter at least 8 characters")',
+            '-ios predicate string:name CONTAINS "Please enter at least 8 characters"'
+        )
     }
 
     async openLoginTab() {

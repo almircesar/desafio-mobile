@@ -1,10 +1,9 @@
 const signupPage = require('../pageobjects/signup.page')
+const { restartApp } = require('../utils/app.helper')
 
 describe('Cadastro', () => {
     beforeEach(async () => {
-        await driver.terminateApp('com.wdiodemoapp')
-        await driver.activateApp('com.wdiodemoapp')
-        await browser.pause(2000)
+        await restartApp()
     })
 
     it('deve realizar cadastro com sucesso', async () => {

@@ -2,35 +2,41 @@ const BasePage = require('./base.page')
 
 class SignupPage extends BasePage {
     get loginTab() {
-        return $('~Login')
+        return this.$('~Login')
     }
 
     get signupTab() {
-        return $('~button-sign-up-container')
+        return this.$('~button-sign-up-container')
     }
 
     get emailInput() {
-        return $('~input-email')
+        return this.$('~input-email')
     }
 
     get passwordInput() {
-        return $('~input-password')
+        return this.$('~input-password')
     }
 
     get confirmPasswordInput() {
-        return $('~input-repeat-password')
+        return this.$('~input-repeat-password')
     }
 
     get signupButton() {
-        return $('~button-SIGN UP')
+        return this.$('~button-SIGN UP')
     }
 
     get successMessage() {
-        return $('android=new UiSelector().textContains("You successfully signed up!")')
+        return this.$(
+            'android=new UiSelector().textContains("You successfully signed up!")',
+            '-ios predicate string:name CONTAINS "You successfully signed up!"'
+        )
     }
 
     get passwordMismatchMessage() {
-        return $('android=new UiSelector().textContains("Please enter the same password")')
+        return this.$(
+            'android=new UiSelector().textContains("Please enter the same password")',
+            '-ios predicate string:name CONTAINS "Please enter the same password"'
+        )
     }
 
     async openSignupTab() {

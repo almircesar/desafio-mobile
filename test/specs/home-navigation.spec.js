@@ -1,10 +1,9 @@
 const navigationPage = require('../pageobjects/navigation.page')
+const { restartApp } = require('../utils/app.helper')
 
 describe('Navegação para Home', () => {
     beforeEach(async () => {
-        await driver.terminateApp('com.wdiodemoapp')
-        await driver.activateApp('com.wdiodemoapp')
-        await browser.pause(2000)
+        await restartApp()
     })
 
     it('deve navegar para a aba Home com sucesso', async () => {

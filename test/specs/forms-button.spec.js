@@ -1,10 +1,9 @@
 const formsPage = require('../pageobjects/forms.page')
+const { restartApp } = require('../utils/app.helper')
 
 describe('Forms - botão ativo', () => {
     beforeEach(async () => {
-        await driver.terminateApp('com.wdiodemoapp')
-        await driver.activateApp('com.wdiodemoapp')
-        await browser.pause(2000)
+        await restartApp()
     })
 
     it('deve clicar no botão ativo com sucesso', async () => {

@@ -1,6 +1,11 @@
 const loginPage = require('../pageobjects/login.page')
+const { restartApp } = require('../utils/app.helper')
 
 describe('Login inválido', () => {
+    beforeEach(async () => {
+        await restartApp()
+    })
+
     it('deve exibir erro ao tentar logar com campos vazios', async () => {
         await loginPage.openLoginTab()
         await loginPage.login('', '')

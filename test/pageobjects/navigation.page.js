@@ -2,27 +2,27 @@ const BasePage = require('./base.page')
 
 class NavigationPage extends BasePage {
     get homeTab() {
-        return $('~Home')
+        return this.$('~Home')
     }
 
     get webviewTab() {
-        return $('~Webview')
+        return this.$('~Webview')
     }
 
     get loginTab() {
-        return $('~Login')
+        return this.$('~Login')
     }
 
     get formsTab() {
-        return $('~Forms')
+        return this.$('~Forms')
     }
 
     get swipeTab() {
-        return $('~Swipe')
+        return this.$('~Swipe')
     }
 
     get dragTab() {
-        return $('~Drag')
+        return this.$('~Drag')
     }
 
     async openHome() {

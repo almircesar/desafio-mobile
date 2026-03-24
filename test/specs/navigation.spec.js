@@ -1,6 +1,11 @@
 const navigationPage = require('../pageobjects/navigation.page')
+const { restartApp } = require('../utils/app.helper')
 
 describe('Navegação entre abas', () => {
+    beforeEach(async () => {
+        await restartApp()
+    })
+
     it('deve navegar entre Login e Forms', async () => {
         await navigationPage.openLogin()
         await driver.pause(1000)

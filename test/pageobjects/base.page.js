@@ -1,4 +1,8 @@
 class BasePage {
+    $(androidSelector, iosSelector = androidSelector) {
+        return driver.isAndroid ? $(androidSelector) : $(iosSelector)
+    }
+
     async click(element) {
         await element.waitForDisplayed({ timeout: 10000 })
         await element.click()

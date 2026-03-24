@@ -2,31 +2,31 @@ const BasePage = require('./base.page')
 
 class FormsPage extends BasePage {
     get formsTab() {
-        return $('~Forms')
+        return this.$('~Forms')
     }
 
     get inputField() {
-        return $('~text-input')
+        return this.$('~text-input')
     }
 
     get inputResult() {
-        return $('~input-text-result')
+        return this.$('~input-text-result')
     }
 
     get switchField() {
-        return $('~switch')
+        return this.$('~switch')
     }
 
     get switchText() {
-        return $('~switch-text')
+        return this.$('~switch-text')
     }
 
     get dropdown() {
-        return $('~Dropdown')
+        return this.$('~Dropdown')
     }
 
     get activeButton() {
-        return $('~button-Active')
+        return this.$('~button-Active')
     }
 
     async openFormsTab() {
