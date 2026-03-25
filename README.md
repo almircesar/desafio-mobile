@@ -216,3 +216,121 @@ Almir Cesar
 - Certifique-se de que o emulador esteja rodando antes de executar os testes
 - O APK deve estar na pasta correta
 - Node.js versão recomendada: 18+
+
+## ✅ Revisão rápida da entrega
+
+Itens verificados neste repositório:
+
+- APK não versionado e `.gitignore` contendo `app/*.apk` — OK
+- Estrutura de testes com Page Objects — OK
+- Specs de login, signup, forms, navigation e smoke presentes — OK
+- Configurações separadas para Android (`wdio.conf.js`) e iOS (`wdio.ios.conf.js`) — OK
+- Allure configurado como reporter e pasta `allure-results/` presente — OK
+
+Pontos que merecem atenção ou ajustes recomendados abaixo.
+
+## 🔧 Ajustes recomendados
+
+1. Executar testes sequencialmente por padrão durante debug
+
+	- Motivo: emuladores e Appium ocasionalmente falham com execuções paralelas. Para runs locais mais estáveis, defina em `wdio.conf.js`:
+
+	```js
+	// reduzir paralelismo global
+	maxInstances: 1,
+
+	// dentro do capability (opcional)
+	capabilities: [{
+	  // ...
+	  maxInstances: 1,
+	}]
+	```
+
+2. Garantir presença do Appium na máquina ou como devDependency
+
+	- Se não houver `appium` no `node_modules`, instale globalmente ou adicione como devDependency:
+
+	```bash
+	npm i -D appium
+	# ou global
+	npm i -g appium
+	```
+
+3. Scripts convenientes no `package.json` (opcional)
+
+	- Sugestão: adicione atalhos para executar facilmente em Android/iOS e um spec isolado:
+
+	```json
+	"scripts": {
+	  "wdio": "wdio run ./wdio.conf.js",
+	  "wdio:android": "wdio run ./wdio.conf.js",
+	  "wdio:ios": "wdio run ./wdio.ios.conf.js",
+	  "wdio:spec": "wdio run ./wdio.conf.js --spec"
+	}
+	```
+
+4. Recomendações de versão
+
+	- Node.js 18+ (recomendado)
+	- Appium versão compatível com drivers @wdio/appium-service instalados
+
+5. CI: limpar artefatos grandes
+
+	- Verifique se o pipeline não tenta commitar artefatos grandes (APK, allure-report). O `.gitignore` já cobre `app/*.apk`, `allure-results/` e `screenshots/`.
+
+## 🧰 Scripts e comandos úteis (resumo)
+
+- Rodar todos os testes (Android):
+
+```bash
+npm run wdio
+```
+
+- Rodar testes iOS (usando config iOS):
+
+```bash
+npx wdio run ./wdio.ios.conf.js
+```
+
+- Rodar um spec específico:
+
+```bash
+npx wdio run ./wdio.conf.js --spec ./test/specs/login.spec.js
+```
+
+## 🩺 Troubleshooting rápido (Android)
+
+- Se a instrumentação do UiAutomator2 falhar (mensagem no Appium: "The instrumentation process cannot be initialized"):
+
+```bash
+adb -s <device> uninstall io.appium.uiautomator2.server || true
+adb -s <device> uninstall io.appium.uiautomator2.server.test || true
+adb -s <device> uninstall io.appium.settings || true
+```
+
+- Logs:
+
+```bash
+adb -s <device> logcat -d > /tmp/logcat_full.txt
+grep -n -i 'instrumentation\|Crash of app' /tmp/logcat_full.txt | sed -n '1,200p'
+```
+
+## 🩺 Troubleshooting rápido (iOS)
+
+- Logs do simulador:
+
+```bash
+xcrun simctl spawn booted log stream --level=info --style compact
+```
+
+- Verifique se o `.app` é válido para simulador (arquitetura correta). Para device é necessário assinatura/provisioning.
+
+## 🧾 Checklist final antes de rodar a suíte
+
+1. Emulador Android ou Simulador iOS rodando
+2. APK `.app` colocado no local correto (`app/android.wdio.native.app.v2.2.0.apk` ou `.app` para iOS)
+3. Node 18+ e dependências instaladas (`npm install`)
+4. Appium disponível (local/global)
+5. Se der erro na instrumentação, executar limpeza dos apks do Appium e reiniciar o emulador
+
+Se quiser, eu posso aplicar automaticamente a alteração recomendada em `wdio.conf.js` (ajustar `maxInstances: 1`) e adicionar os scripts sugeridos ao `package.json` — quer que eu faça isso agora?
