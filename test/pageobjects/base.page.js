@@ -7,7 +7,7 @@ class BasePage {
         await element.waitForDisplayed({ timeout: 10000 })
         await element.click()
     }
-
+ 
     async setValue(element, value) {
         await element.waitForDisplayed({ timeout: 10000 })
         await element.setValue(value)
@@ -18,5 +18,5 @@ class BasePage {
         return await element.getText()
     }
 }
-
+//
 module.exports = BasePage
