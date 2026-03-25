@@ -1,0 +1,95 @@
+name: Mobile Tests
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+
+jobs:
+  validate-project:
+    name: Validate project structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Validar estrutura do projeto
+        run: |
+          test -f package.json
+          test -f wdio.conf.js
+          test -f README.md
+          test -d test/specs
+          test -d test/pageobjects
+
+      - name: Listar arquivos principais
+        run: |
+          ls -la
+          ls -la test/specs
+          ls -la test/pageobjects
+
+  android-smoke-placeholder:
+    name: Android smoke placeholder
+    runs-on: ubuntu-latest
+    needs: validate-project
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Informar limitação do ambiente
+        run: |
+          echo "Os testes mobile reais dependem de Android Emulator/Appium/iOS Simulator."
+          echo "Este workflow valida a estrutura do projeto no GitHub Actions."
+          echo "A execução completa dos testes deve ocorrer em ambiente com emulador/simulador configurado."
+
+  upload-artifacts:
+    name: Upload project artifacts
+    runs-on: ubuntu-latest
+    needs:
+      - validate-project
+      - android-smoke-placeholder
+    if: always()
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Upload README
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-readme
+          path: README.md
+
+      - name: Upload configs
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-configs
+          path: |
+            wdio.conf.js
+            wdio.ios.conf.js
+            wdio.ios.install.conf.js
+            .gitignore
