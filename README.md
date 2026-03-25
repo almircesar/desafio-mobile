@@ -133,6 +133,71 @@ O projeto está preparado para execução em iOS, podendo ser configurado com:
 - Simulador iOS
 - Appium
 
+### 🛠️ Configuração iOS do projeto
+
+As configurações padrão do projeto para iOS estão em `wdio.ios.conf.js`:
+
+- `platformName`: iOS
+- `automationName`: XCUITest
+- `deviceName`: iPhone 15
+- `platformVersion`: 17.5
+- `bundleId`: org.wdiodemoapp
+- `noReset`: true
+- `fullReset`: false
+
+> Ajuste `deviceName` ou `platformVersion` conforme os simuladores instalados localmente.
+
+### 📱 Como rodar em iOS (simulador)
+
+1. Certifique-se que está no macOS com Xcode instalado.
+2. Instale dependências do projeto:
+
+```bash
+npm install
+```
+
+3. Compile ou obtenha um build `.app` para o simulador (arquitetura compatível). Coloque o `.app` em um local acessível no seu sistema.
+
+4. Inicie/boot o simulador desejado (ex.: iPhone 15):
+
+```bash
+# listar dispositivos
+xcrun simctl list devices
+
+# bootar um simulador
+xcrun simctl boot "iPhone 15"
+```
+
+5. Instale e abra o app no simulador:
+
+```bash
+xcrun simctl install booted /path/to/YourApp.app
+xcrun simctl launch booted org.wdiodemoapp
+```
+
+6. Rodar os testes usando a config iOS:
+
+```bash
+npx wdio run ./wdio.ios.conf.js
+```
+
+Ou rodar um spec específico:
+
+```bash
+npx wdio run ./wdio.ios.conf.js --spec ./test/specs/login.spec.js
+```
+
+### 🧭 Logs e troubleshooting iOS
+
+- Logs do simulador:
+
+```bash
+xcrun simctl spawn booted log stream --level=info --style compact
+```
+
+- Se o Appium/WebDriverAgent não iniciar, verifique se Xcode command line tools estão atualizados e se há compatibilidade entre o Xcode, iOS e a versão do WebDriverAgent.
+
+
 🔥 Diferenciais
 
 - Estrutura profissional
